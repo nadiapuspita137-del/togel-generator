@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Togel Generator 2D/3D/4D | BolaPelangi</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-white">
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 bg-[#0a0f2a]/90 backdrop-blur-md border-b border-blue-500/30">
+    <div class="max-w-6xl mx-auto px-5 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center overflow-hidden shadow-md shadow-blue-500/30">
+          <img src="logo.png" alt="BolaPelangi Logo" class="w-8 h-8 object-contain">
+        </div>
+        <span class="font-extrabold text-xl text-white">Bola<span class="text-blue-400">Pelangi</span></span>
+        <span class="text-xs bg-blue-500/20 px-2 py-0.5 rounded-full ml-2">Togel Generator</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="px-4 py-2 rounded-lg border border-blue-500 text-blue-400 hover:bg-blue-500/10 transition-all text-sm font-semibold">
+          <i class="fas fa-sign-in-alt mr-1"></i> Login
+        </a>
+        <a href="kalkulator-parlay.html" class="text-gray-300 hover:text-blue-400 text-sm transition flex items-center gap-1">
+          <i class="fas fa-arrow-left mr-1"></i> Kembali
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-5 py-8">
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 bg-blue-500/10 backdrop-blur-sm rounded-full px-4 py-1.5 border border-blue-400/40 mb-4">
+        <i class="fas fa-magic text-blue-400 text-xs"></i>
+        <span class="text-blue-300 text-xs font-semibold tracking-wide">GENERATOR ANGKA 2D/3D/4D</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold">
+        Generate <span class="text-blue-400">Angka</span> Togel
+      </h1>
+      <p class="text-gray-400 text-sm mt-2">Masukkan angka tarung, pilih format, dan generate semua kemungkinan kombinasi</p>
+    </div>
+
+    <div class="space-y-6">
+      
+      <!-- Input Section -->
+      <div class="bg-slate-800/50 rounded-2xl p-6 border border-blue-500/20">
+        <div class="grid md:grid-cols-2 gap-6">
+          
+          <!-- Input Angka Tarung -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-300 mb-2">
+              <i class="fas fa-hashtag text-blue-400 mr-1"></i> Angka Tarung
+            </label>
+            <input type="text" id="angkaTarung" value="123456" 
+                   class="w-full px-4 py-3 bg-slate-900 border border-blue-500/30 rounded-xl text-white text-lg font-mono focus:outline-none focus:border-blue-400 transition"
+                   placeholder="Contoh: 123456 atau 12,3456">
+            <p class="text-xs text-gray-500 mt-2">
+              <i class="fas fa-info-circle mr-1"></i> Pisahkan dengan koma untuk posisi berbeda (contoh: 123,456)
+            </p>
+          </div>
+          
+          <!-- Pilih Format -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-300 mb-2">
+              <i class="fas fa-layer-group text-blue-400 mr-1"></i> Format / Set
+            </label>
+            <div class="grid grid-cols-3 gap-3">
+              <button id="btn2d" onclick="setFormat(2)" 
+                      class="format-btn px-4 py-3 rounded-xl bg-slate-700 border border-blue-500/30 hover:bg-blue-500/20 transition font-bold text-lg">
+                2D
+              </button>
+              <button id="btn3d" onclick="setFormat(3)" 
+                      class="format-btn px-4 py-3 rounded-xl bg-slate-700 border border-blue-500/30 hover:bg-blue-500/20 transition font-bold text-lg">
+                3D
+              </button>
+              <button id="btn4d" onclick="setFormat(4)" 
+                      class="format-btn px-4 py-3 rounded-xl bg-blue-600/40 border border-blue-500/50 hover:bg-blue-500/20 transition font-bold text-lg">
+                4D
+              </button>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              <i class="fas fa-chart-line mr-1"></i> Pilih jumlah digit yang akan digenerate
+            </p>
+          </div>
+        </div>
+        
+        <!-- Tombol Generate -->
+        <div class="flex gap-4 mt-6">
+          <button onclick="generatePermutations()" 
+                  class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl font-bold text-lg shadow-xl hover:scale-[1.02] transition-all">
+            <i class="fas fa-magic mr-2"></i> Generate Angka
+          </button>
+          <button onclick="clearResults()" 
+                  class="px-6 py-3 bg-red-600/50 hover:bg-red-600 rounded-xl font-semibold transition-all">
+            <i class="fas fa-trash-alt mr-2"></i> Bersihkan
+          </button>
+        </div>
+      </div>
+
+      <!-- Statistik -->
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-2xl p-5 border border-blue-500/30 result-card">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="stat-icon w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+              <i class="fas fa-chart-simple text-blue-400 text-xl"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400">Total Kombinasi</p>
+              <p class="text-2xl font-bold text-blue-400 glow-text" id="totalCount">0</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-purple-600/20 to-purple-800/20 rounded-2xl p-5 border border-purple-500/30 result-card">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="stat-icon w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+              <i class="fas fa-clock text-purple-400 text-xl"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400">Waktu Generate</p>
+              <p class="text-2xl font-bold text-purple-400 glow-text" id="timeCount">0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hasil Generate -->
+      <div class="bg-slate-800/40 rounded-2xl p-5 border border-blue-500/20">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <i class="fas fa-list-ul text-blue-400"></i>
+            <h3 class="font-semibold">Hasil Generate</h3>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="copyToClipboard()" 
+                    class="px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 rounded-lg text-sm transition">
+              <i class="fas fa-copy mr-1"></i> Copy
+            </button>
+            <button onclick="downloadResult()" 
+                    class="px-3 py-1.5 bg-green-500/20 hover:bg-green-500/30 rounded-lg text-sm transition">
+              <i class="fas fa-download mr-1"></i> Download
+            </button>
+          </div>
+        </div>
+        <textarea id="resultArea" readonly
+                  class="result-textarea w-full h-80 px-4 py-3 bg-slate-900 border border-blue-500/30 rounded-xl text-white font-mono text-sm focus:outline-none resize-none"
+                  placeholder="Klik Generate untuk menampilkan kombinasi angka..."></textarea>
+      </div>
+
+      <!-- Informasi Panduan -->
+      <div class="bg-slate-800/30 rounded-xl p-5 border border-blue-500/20">
+        <div class="flex items-center gap-2 mb-3">
+          <i class="fas fa-info-circle text-blue-400"></i>
+          <h4 class="font-semibold">Panduan Generator Angka</h4>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
+          <div class="space-y-2">
+            <p><span class="text-blue-400">📌 Cara Penggunaan:</span></p>
+            <p>1. Masukkan angka tarung (contoh: 123456)</p>
+            <p>2. Pilih format: 2D, 3D, atau 4D</p>
+            <p>3. Klik Generate untuk menghasilkan kombinasi</p>
+            <p>4. Hasil bisa di-copy atau di-download</p>
+          </div>
+          <div class="space-y-2">
+            <p><span class="text-blue-400">📐 Contoh:</span></p>
+            <p>Angka: 123 → 2D = 12,13,21,23,31,32</p>
+            <p>Angka: 1234 → 3D = 123,124,132,134,142,143, ...</p>
+            <p class="text-yellow-400 mt-2">⚡ Pisahkan dengan koma untuk posisi berbeda!</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 pt-6 text-center text-gray-500 text-xs border-t border-blue-500/20">
+      <p>© 2025 BolaPelangi — Togel Generator 2D/3D/4D Akurat & Terpercaya</p>
+      <p class="mt-1">⚠️ Gunakan untuk referensi | Hasil generate bersifat acak/permutasi</p>
+    </footer>
+  </main>
+
+  <!-- Floating Social Icons -->
+  <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+    <a href="https://bopel.vip/wa" target="_blank" 
+       class="whatsapp-float group w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-green-500/50">
+      <i class="fab fa-whatsapp text-white text-3xl"></i>
+      <span class="absolute right-full mr-3 px-3 py-1.5 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-lg translate-x-2 group-hover:translate-x-0">
+        <i class="fab fa-whatsapp mr-1 text-green-400"></i> Chat WhatsApp
+      </span>
+    </a>
+    <a href="https://bopel.link/telegram" target="_blank" 
+       class="telegram-float group w-14 h-14 bg-[#26A5E4] rounded-full flex items-center justify-center shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-blue-400/50">
+      <i class="fab fa-telegram-plane text-white text-3xl"></i>
+      <span class="absolute right-full mr-3 px-3 py-1.5 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-lg translate-x-2 group-hover:translate-x-0">
+        <i class="fab fa-telegram mr-1 text-blue-400"></i> Join Telegram
+      </span>
+    </a>
+  </div>
+
+  <script>
+    let currentFormat = 4; // 2, 3, atau 4
+    
+    function setFormat(format) {
+      currentFormat = format;
+      
+      // Update tombol style
+      document.querySelectorAll('.format-btn').forEach(btn => {
+        btn.className = 'format-btn px-4 py-3 rounded-xl bg-slate-700 border border-blue-500/30 hover:bg-blue-500/20 transition font-bold text-lg';
+      });
+      
+      let activeBtn = document.getElementById('btn' + format + 'd');
+      if (activeBtn) {
+        activeBtn.className = 'format-btn px-4 py-3 rounded-xl bg-blue-600/40 border border-blue-500/50 hover:bg-blue-500/20 transition font-bold text-lg';
+      }
+    }
+    
+    function removeSpaces(str) {
+      return str.replace(/\s/g, '');
+    }
+    
+    function permutations(arr, len) {
+      if (len === 1) return arr.map(e => [e]);
+      
+      let result = [];
+      for (let i = 0; i < arr.length; i++) {
+        let rest = permutations(arr.filter((_, idx) => idx !== i), len - 1);
+        for (let perm of rest) {
+          result.push([arr[i], ...perm]);
+        }
+      }
+      return result;
+    }
+    
+    function generatePermutations() {
+      let inputString = document.getElementById('angkaTarung').value;
+      inputString = removeSpaces(inputString);
+      
+      if (inputString === "") {
+        Swal.fire({
+          title: 'Perhatian!',
+          text: 'Masukkan angka tarung terlebih dahulu!',
+          icon: 'warning',
+          background: '#1e293b',
+          color: '#fff',
+          confirmButtonColor: '#3b82f6'
+        });
+        return;
+      }
+      
+      let startTime = performance.now();
+      let hasComma = inputString.indexOf(',') !== -1;
+      let chars = [];
+      
+      if (hasComma) {
+        let positions = inputString.split(',');
+        
+        if (positions.length !== currentFormat) {
+          Swal.fire({
+            title: 'Perhatian!',
+            text: `Jumlah posisi (${positions.length}) tidak sesuai dengan format ${currentFormat}D!\nContoh: 123,456 untuk 3D (3 posisi)`,
+            icon: 'warning',
+            background: '#1e293b',
+            color: '#fff',
+            confirmButtonColor: '#3b82f6'
+          });
+          return;
+        }
+        
+        for (let i = 0; i < positions.length; i++) {
+          let posChars = positions[i].split('');
+          if (posChars.length === 0) {
+            Swal.fire({
+              title: 'Error!',
+              text: `Posisi ke-${i+1} kosong!`,
+              icon: 'error',
+              background: '#1e293b',
+              color: '#fff',
+              confirmButtonColor: '#3b82f6'
+            });
+            return;
+          }
+          chars.push(posChars);
+        }
+        
+        let results = [];
+        function generatePositionCombos(idx, current) {
+          if (idx === chars.length) {
+            results.push(current.join(''));
+            return;
+          }
+          for (let i = 0; i < chars[idx].length; i++) {
+            generatePositionCombos(idx + 1, [...current, chars[idx][i]]);
+          }
+        }
+        generatePositionCombos(0, []);
+        
+        let endTime = performance.now();
+        let elapsed = ((endTime - startTime) / 1000).toFixed(3);
+        
+        document.getElementById('totalCount').innerText = results.length.toLocaleString();
+        document.getElementById('timeCount').innerText = elapsed + ' detik';
+        document.getElementById('resultArea').value = results.join(' * ');
+        
+        if (results.length > 5000) {
+          Swal.fire({
+            title: 'Info',
+            text: `Menghasilkan ${results.length.toLocaleString()} kombinasi. Halaman mungkin sedikit lambat.`,
+            icon: 'info',
+            background: '#1e293b',
+            color: '#fff',
+            confirmButtonColor: '#3b82f6'
+          });
+        }
+        return;
+      }
+      
+      chars = inputString.split('');
+      let uniqueChars = [...new Set(chars)];
+      
+      if (uniqueChars.length < currentFormat) {
+        Swal.fire({
+          title: 'Perhatian!',
+          text: `Angka unik hanya ${uniqueChars.length} digit, tidak cukup untuk generate ${currentFormat}D!\nMasukkan minimal ${currentFormat} digit berbeda.`,
+          icon: 'warning',
+          background: '#1e293b',
+          color: '#fff',
+          confirmButtonColor: '#3b82f6'
+        });
+        return;
+      }
+      
+      let perms = permutations(uniqueChars, currentFormat);
+      let results = perms.map(perm => perm.join(''));
+      results = [...new Set(results)];
+      results.sort();
+      
+      let endTime = performance.now();
+      let elapsed = ((endTime - startTime) / 1000).toFixed(3);
+      
+      document.getElementById('totalCount').innerText = results.length.toLocaleString();
+      document.getElementById('timeCount').innerText = elapsed + ' detik';
+      document.getElementById('resultArea').value = results.join(' * ');
+      
+      if (results.length > 5000) {
+        Swal.fire({
+          title: 'Info',
+          text: `Menghasilkan ${results.length.toLocaleString()} kombinasi. Halaman mungkin sedikit lambat.`,
+          icon: 'info',
+          background: '#1e293b',
+          color: '#fff',
+          confirmButtonColor: '#3b82f6'
+        });
+      }
+    }
+    
+    function clearResults() {
+      document.getElementById('resultArea').value = '';
+      document.getElementById('totalCount').innerText = '0';
+      document.getElementById('timeCount').innerText = '0';
+    }
+    
+    function copyToClipboard() {
+      let text = document.getElementById('resultArea').value;
+      if (!text) {
+        Swal.fire({
+          title: 'Info',
+          text: 'Tidak ada data untuk di-copy!',
+          icon: 'info',
+          background: '#1e293b',
+          color: '#fff',
+          confirmButtonColor: '#3b82f6'
+        });
+        return;
+      }
+      
+      navigator.clipboard.writeText(text).then(() => {
+        Swal.fire({
+          title: 'Berhasil!',
+          text: 'Hasil telah disalin ke clipboard',
+          icon: 'success',
+          background: '#1e293b',
+          color: '#fff',
+          confirmButtonColor: '#3b82f6',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      });
+    }
+    
+    function downloadResult() {
+      let text = document.getElementById('resultArea').value;
+      if (!text) {
+        Swal.fire({
+          title: 'Info',
+          text: 'Tidak ada data untuk di-download!',
+          icon: 'info',
+          background: '#1e293b',
+          color: '#fff',
+          confirmButtonColor: '#3b82f6'
+        });
+        return;
+      }
+      
+      let format = currentFormat + 'D';
+      let date = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+      let filename = `togel_${format}_${date}.txt`;
+      
+      let blob = new Blob([text], {type: 'text/plain'});
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(link.href);
+      
+      Swal.fire({
+        title: 'Berhasil!',
+        text: `File ${filename} telah di-download`,
+        icon: 'success',
+        background: '#1e293b',
+        color: '#fff',
+        confirmButtonColor: '#3b82f6',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+    
+    setFormat(4);
+    
+    document.getElementById('angkaTarung').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        generatePermutations();
+      }
+    });
+  </script>
+</body>
+</html>
